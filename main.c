@@ -1,13 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "untils.c"
+#include "task.h"
 
-int main(){
-    main_menu();
-    return 0;
-}
-
-void main_menu(){
+void main_menu(void){
     bool run = true;
     do{
     int op;
@@ -21,7 +16,7 @@ void main_menu(){
     switch (op)
     {
     case 1:
-        /* code */
+        Task task = add_item();
         break;
     case 2:
         break;
@@ -36,4 +31,9 @@ void main_menu(){
         break;
     }
     }while (run == true);
+}
+
+int main(){
+    main_menu();
+    return 0;
 }

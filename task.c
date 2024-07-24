@@ -1,39 +1,35 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "task.h"
-#include "untils.c"
 
-void add_item(Task *task){
-    char name[50];
-    char description[150];
-    int status;
+void write_date(Task *task) {
+    printf("Digite o dia: ");
+    scanf("%d", &task->date.day);
+    printf("Digite o mês: ");
+    scanf("%d", &task->date.month);
+    printf("Digite o ano: ");
+    scanf("%d", &task->date.year);
+    getchar(); // Limpar o buffer do newline após scanf
+}
 
+Task add_item(void) {
+    Task task; // Não precisa de ponteiro, apenas uma variável local
+    
     printf("Adicionar tarefa\n\n");
     printf("Digite o nome: ");
-    scanf("%s\n", &task->name);
+    fgets(task.name, sizeof(task.name), stdin);
+    // Remover o newline final
+    task.name[strcspn(task.name, "\n")] = '\0';
+    
     printf("Digite a descricao:\n");
-    scanf("%s", &task->description);
-    write_date(&task->date);
-    task->status = 1; //significa que a task está ativa
+    fgets(task.description, sizeof(task.description), stdin);
+    // Remover o newline final
+    task.description[strcspn(task.description, "\n")] = '\0';
+    
+    write_date(&task);
+    task.status = 1; // A task está ativa
+    
+    return task;
 }
 
-void save_task(const char *tasks, const Task *task){
-    FILE *arquivo = fopen(tasks, "w");
-        if (arquivo == NULL) {
-        perror("Não foi possível abrir o arquivo");
-        return;
-    }
-    fprintf(arquivo, "Nome: %s\n", task->name);
-    fprintf(arquivo, "Descrição: %s\n", task->description);
-    fprintf(arquivo, "Status: %d\n", task->status);
-
-    fclose(arquivo);
-}
-
-void write_date(Data *date){
-    printf("Digite o dia: ");
-    scanf("%d", &date->day);
-    printf("Digite o mês: ");
-    scanf("%d", &date->month);
-    printf("Digite o ano: ");
-    scanf("%d", &date->year);
-}
